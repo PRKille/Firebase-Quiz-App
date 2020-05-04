@@ -1,20 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useFirestore } from 'react-redux-firebase';
 
 function NewSurveyForm(props) {
 
   function handleNewSurveySubmission(event) {
     event.preventDefault();
-    props.onNewSurveySubmission({
-      title: event.target.title.value,
-      instructions: event.target.instructions.value,
-      question1: event.target.question1.value,
-      question2: event.target.question2.value,
-      question3: event.target.question3.value,
-      question4: event.target.question4.value,
-      question5: event.target.question5.value,
-      question6: event.target.question6.value
-    });
+    props.onNewSurveySubmission();
+    return firestore.collection('surveys').add(
+      {
+        title: event.target.title.value,
+        instructions: event.target.instructions.value,
+        question1: event.target.question1.value,
+        question2: event.target.question2.value,
+        question3: event.target.question3.value,
+        question4: event.target.question4.value,
+        question5: event.target.question5.value,
+        question6: event.target.question6.value
+      }
+    );
   };
 
   return (

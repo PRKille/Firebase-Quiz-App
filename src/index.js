@@ -12,7 +12,7 @@ import firebase from "./firebase";
 
 const store = createStore(rootReducer,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-const rrrProps = {
+const rrfProps = {
   firebase,
   config: {
       userProfile: "users"

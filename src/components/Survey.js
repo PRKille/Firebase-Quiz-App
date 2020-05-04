@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Survey(props) {
   return (
-    <div onClick={props.whenSurveyClicked(props.id)}>
+    <div onClick={()=> props.whenSurveyClicked(props.id)}>
       <h3>{props.title}</h3>
     </div>
   );

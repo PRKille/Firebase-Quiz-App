@@ -24,6 +24,9 @@ function NewSurveyForm(props) {
   };
 
   return (
+    <React.Fragment>
+    <h3>Create a Survey</h3>
+    <p>Questions 1 through 5 will have answers on a scale of one to five. Question 6 will have an open text input field for a response.</p>
     <form onSubmit={addSurveyToFirestore}>
       <input
         type="text"
@@ -35,29 +38,30 @@ function NewSurveyForm(props) {
       <input 
         type="text"
         name="question1"
-        placeholder="on a scale of one to five, ..." required />
+        placeholder="Enter question 1 here" required />
       <input 
         type="text"
         name="question2"
-        placeholder="on a scale of one to five, ..." required />
+        placeholder="Enter question 2 here" required />
       <input 
         type="text"
         name="question3"
-        placeholder="on a scale of one to five, ..." required />
+        placeholder="Enter question 3 here" required />
       <input 
         type="text"
         name="question4"
-        placeholder="on a scale of one to five, ..." required />
+        placeholder="Enter question 4 here" required />
       <input 
         type="text"
         name="question5"
-        placeholder="on a scale of one to five, ..." required />
+        placeholder="Enter question 5 here" required />
       <input
         type="text"
         name="question6"
         placeholder="write a question that requires a text response, such as requesting feedback." required />
       <button type="submit">create your survey!</button>
     </form>
+    </React.Fragment>
   );
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import Survey from './Survey';
 import { useSelector } from 'react-redux';
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase';
+import PropTypes from 'prop-types';
 
 function SurveyList(props) {
   useFirestoreConnect([
@@ -28,7 +29,7 @@ function SurveyList(props) {
 }
 
 SurveyList.propTypes = {
-  onSurveySelection = PropTypes.func
+  onSurveySelection: PropTypes.func
 }
 
 export default SurveyList;

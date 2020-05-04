@@ -4,10 +4,10 @@ export const toggleForm = () => ({
   type: c.TOGGLE_FORM
 });
 
-export const changeSurvey = (survey) => {
+export const selectSurvey = (survey) => {
   const { title, instructions, question1, question2, question3, question4, question5, question6 } = survey;
   return {
-    type: c.CHANGE_SURVEY,
+    type: c.SELECT_SURVEY,
     title: title,
     instructions: instructions,
     question1: question1,

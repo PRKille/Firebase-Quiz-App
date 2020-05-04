@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useFirestore } from 'react-redux-firebase';
 
-function SurveyDetail(props) {
+function NewResponseForm(props) {
+
+  const firestore = useFirestore();
 
   function handleSurveyResponse(event) {
     event.preventDefault();
     props.onRespondingToSurvey();
     return firestore.collection('responses').add(
       {
-        surveyId: props.id, // double check this
+        //figure out if this vvvv is the problem
+        surveyId: event.target.surveyId.value,
         question1answer: parseInt(event.target.question1answer.value),
         question2answer: parseInt(event.target.question2answer.value),
         question3answer: parseInt(event.target.question3answer.value),
@@ -21,7 +24,11 @@ function SurveyDetail(props) {
   }
 
   return (
-    <form >
+    <form onSubmit={handleSurveyResponse}>
+      <input
+        type="hidden"
+        name="surveyId"
+        value={props.survey.id} />
       <h1>{props.survey.title}</h1>
       <p>{props.survey.instructions}</p>
       <h4>{props.survey.question1}</h4>
@@ -185,14 +192,14 @@ function SurveyDetail(props) {
       </div>
       <h4>{props.survey.question6}</h4>
       <textarea name="question6answer"></textarea>
-      <button>submit!</button>
+      <button type="submit">submit!</button>
     </form>
   );
 }
 
-Survey.propTypes = {
+NewResponseForm.propTypes = {
   survey: PropTypes.object,
   onRespondingToSurvey: PropTypes.func
 }
 
-export default SurveyDetail;
+export default NewResponseForm;

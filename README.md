@@ -68,3 +68,6 @@ _To view/edit the source code of this application, open the contents in a text e
 MIT license
 
 Copyright &copy; 2020 Michelle Morin, Patrick Kille, Geoff Goetz
+
+Co-authored-by: Michelle Morin <morin2m@gmail.com>
+Co-authored-by: Geoff Goetz <59552871+Pieharder@users.noreply.github.com>"

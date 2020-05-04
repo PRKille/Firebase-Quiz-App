@@ -30,3 +30,5 @@ function SurveyList(props) {
 SurveyList.propTypes = {
   onSurveySelection = PropTypes.func
 }
+
+export default SurveyList;

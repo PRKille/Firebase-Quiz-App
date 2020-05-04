@@ -9,11 +9,11 @@ import { withFirestore } from 'react-redux-firebase';
 function SurveyControl(props) {
   const { dispatch } = props;
 
-  // function handleSurveyResponse 
+  function handleSurveyResponse (){};
 
-  // function handleSurveyCreation
+  function handleSurveyCreation (){};
 
-  // function handleSurveySelection
+  function handleSurveySelection (){};
 
   let currentView = null;
   let buttonText = null;

@@ -1,10 +1,12 @@
 import React from 'react';
+import SurveyControl from './SurveyControl';
 import './../App.css';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <React.Fragment>
+      <SurveyControl />
+    </React.Fragment>
   );
 }
 

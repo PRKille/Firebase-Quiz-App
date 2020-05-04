@@ -4,7 +4,9 @@ import { useFirestore } from 'react-redux-firebase';
 
 function NewSurveyForm(props) {
 
-  function handleNewSurveySubmission(event) {
+  const firestore = useFirestore();
+  
+  function addSurveyToFirestore(event) {
     event.preventDefault();
     props.onNewSurveySubmission();
     return firestore.collection('surveys').add(
@@ -22,7 +24,7 @@ function NewSurveyForm(props) {
   };
 
   return (
-    <form onSubmit={this.handleNewSurveySubmission}>
+    <form onSubmit={addSurveyToFirestore}>
       <input
         type="text"
         name="title"

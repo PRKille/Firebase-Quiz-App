@@ -76,6 +76,9 @@ function SurveyControl(props) {
   }
 
   const auth = props.firebase.auth();
+  let currentView;
+  let buttonText;
+
   if(!isLoaded(auth)) {
     return (
       <React.Fragment>
@@ -84,15 +87,26 @@ function SurveyControl(props) {
     );
   }
   if ((isLoaded(auth)) && (auth.currentUser == null)) {
+    console.log(auth);
+    if(props.selectedSurvey !== null) {
+      currentView = <NewResponseForm 
+        survey={props.selectedSurvey}
+        onRespondingToSurvey={handleSurveyResponse} />
+      buttonText = "return to survey list";
+    } else {
+      currentView = <SurveyList
+        loggedInUser={false}
+        onSurveySelection={handleSurveySelection} />
+      buttonText = "create new survey";
+    }
     return (
       <React.Fragment>
-        <h1>Please sign in to access surveys.</h1>
+        <button onClick={handleClick}>{buttonText}</button>
+        {currentView}
       </React.Fragment>
     );
   }
-  if ((isLoaded(auth)) && (auth.currentUser !== null)) {
-    let currentView = null;
-    let buttonText = null;
+  if ((isLoaded(auth)) && (auth.currentUser != null)) {
     if (props.editing) {
       currentView = <EditSurveyForm
         survey={props.selectedSurvey}
@@ -101,6 +115,7 @@ function SurveyControl(props) {
     } else if(props.selectedSurvey !== null) {
       currentView = <NewResponseForm 
         survey={props.selectedSurvey}
+        loggedInUser={true}
         onRespondingToSurvey={handleSurveyResponse}
         onEditingSurvey={handleEditClick}
         onDeleteClick={handleDeleteClick} />
@@ -136,6 +151,7 @@ const mapStateToProps = state => {
   }
 }
 
+// eslint-disable-next-line
 SurveyControl = connect(mapStateToProps)(SurveyControl);
 
 export default withFirestore(SurveyControl);

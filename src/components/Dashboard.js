@@ -1,15 +1,15 @@
-// import React from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 
-// function Dashboard(){
+function Dashboard(){
 
-//   return (
-
-//   );
-// }
+  return (
+    <p>A Dashboard</p>
+  );
+}
 
 // Dashboard.propTypes = {
 
 // }
 
-// export default Dashboard;
+export default Dashboard;

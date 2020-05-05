@@ -22,9 +22,6 @@ function App() {
         <Route path="/signup">
           <SignUp />
         </Route>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
         <Route path="/">
           <SurveyControl />
         </Route>

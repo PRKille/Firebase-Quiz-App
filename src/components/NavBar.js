@@ -6,12 +6,15 @@ function NavBar() {
     display: 'flex',
     justifyContent: 'space-around'
   }
+  const links = {
+    marginLeft: '10px'
+  }
   return (
     <div style={navStyles}>
       <h1>Survey-tron5000</h1>
       <div>
-        <Link to="/">Home</Link>
-        <Link to="/account">Account</Link>
+        <Link to="/" style={links}>Home</Link>
+        <Link to="/account" style={links}>Account</Link>
       </div>
     </div>
   );

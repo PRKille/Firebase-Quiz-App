@@ -1,12 +1,31 @@
 import React from 'react';
 import SurveyControl from './SurveyControl';
+import NavBar from './NavBar';
+import Account from './Account';
+import SignUp from './SignUp';
+import SignIn from './SignIn';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './../App.css';
 
 function App() {
   return (
-    <React.Fragment>
-      <SurveyControl />
-    </React.Fragment>
+    <Router>
+      <NavBar />
+      <Switch>
+        <Route path="/account">
+          <Account />
+        </Route>
+        <Route path="/signin">
+          <SignIn />
+        </Route>
+        <Route path="/signup">
+          <SignUp />
+        </Route>
+        <Route path="/">
+          <SurveyControl />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

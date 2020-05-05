@@ -5,7 +5,7 @@ import SurveyList from './SurveyList';
 import NewResponseForm from './NewResponseForm';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withFirestore } from 'react-redux-firebase';
+import { withFirestore, isLoaded } from 'react-redux-firebase';
 import * as a from '../actions';
 
 function SurveyControl(props) {
@@ -75,34 +75,51 @@ function SurveyControl(props) {
     dispatch(action);
   }
 
-  let currentView = null;
-  let buttonText = null;
-  if (props.editing) {
-    currentView = <EditSurveyForm
-      survey={props.selectedSurvey}
-      onEditSubmission = {handleSurveyEdit} />
-    buttonText = "return to survey list";
-  } else if(props.selectedSurvey !== null) {
-    currentView = <NewResponseForm 
-      survey={props.selectedSurvey}
-      onRespondingToSurvey={handleSurveyResponse}
-      onEditingSurvey={handleEditClick}
-      onDeleteClick={handleDeleteClick} />
-    buttonText = "return to survey list";
-  } else if (props.formVisible) {
-    currentView = <NewSurveyForm onNewSurveySubmission={handleSurveyCreation} />
-    buttonText = "return to survey list";
-  } else {
-    currentView = <SurveyList
-      onSurveySelection={handleSurveySelection} />
-    buttonText = "create new survey";
+  const auth = props.firebase.auth();
+  if(!isLoaded(auth)) {
+    return (
+      <React.Fragment>
+        <h1>Loading...</h1>
+      </React.Fragment>
+    );
   }
-  return (
-    <React.Fragment>
-      <button onClick={handleClick}>{buttonText}</button>
-      {currentView}
-    </React.Fragment>
-  );
+  if ((isLoaded(auth)) && (auth.currentUser == null)) {
+    return (
+      <React.Fragment>
+        <h1>Please sign in to access surveys.</h1>
+      </React.Fragment>
+    );
+  }
+  if ((isLoaded(auth)) && (auth.currentUser !== null)) {
+    let currentView = null;
+    let buttonText = null;
+    if (props.editing) {
+      currentView = <EditSurveyForm
+        survey={props.selectedSurvey}
+        onEditSubmission = {handleSurveyEdit} />
+      buttonText = "return to survey list";
+    } else if(props.selectedSurvey !== null) {
+      currentView = <NewResponseForm 
+        survey={props.selectedSurvey}
+        onRespondingToSurvey={handleSurveyResponse}
+        onEditingSurvey={handleEditClick}
+        onDeleteClick={handleDeleteClick} />
+      buttonText = "return to survey list";
+    } else if (props.formVisible) {
+      currentView = <NewSurveyForm onNewSurveySubmission={handleSurveyCreation} />
+      buttonText = "return to survey list";
+    } else {
+      currentView = <SurveyList
+        onSurveySelection={handleSurveySelection} />
+      buttonText = "create new survey";
+    }
+    return (
+      <React.Fragment>
+        <button onClick={handleClick}>{buttonText}</button>
+        {currentView}
+      </React.Fragment>
+    );
+  }
 }
 
 SurveyList.propTypes = {

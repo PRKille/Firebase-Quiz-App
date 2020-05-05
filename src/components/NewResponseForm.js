@@ -24,6 +24,7 @@ function NewResponseForm(props) {
 
   return (
     <form onSubmit={handleSurveyResponse}>
+      <button onClick={()=> props.onEditingSurvey(props.survey.id)}>edit survey</button>
       <h1>{props.survey.title}</h1>
       <p>{props.survey.instructions}</p>
       <h4>{props.survey.question1}</h4>
@@ -194,7 +195,8 @@ function NewResponseForm(props) {
 
 NewResponseForm.propTypes = {
   survey: PropTypes.object,
-  onRespondingToSurvey: PropTypes.func
+  onRespondingToSurvey: PropTypes.func,
+  onEditingSurvey: PropTypes.func
 }
 
 export default NewResponseForm;

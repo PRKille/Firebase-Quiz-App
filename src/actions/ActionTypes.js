@@ -1,3 +1,4 @@
 export const TOGGLE_FORM = 'TOGGLE_FORM';
 export const SELECT_SURVEY = 'SELECT_SURVEY';
 export const UNSELECT_SURVEY = 'UNSELECT_SURVEY';
+export const EDIT_SURVEY = 'EDIT_SURVEY';

@@ -23,3 +23,7 @@ export const selectSurvey = (survey) => {
 export const unselectSurvey = () => ({
   type: c.UNSELECT_SURVEY
 });
+
+export const editSurvey = () => ({
+  type: c.EDIT_SURVEY
+});

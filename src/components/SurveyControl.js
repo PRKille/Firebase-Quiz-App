@@ -1,5 +1,6 @@
 import React from 'react';
 import NewSurveyForm from './NewSurveyForm';
+import EditSurveyForm from './EditSurveyForm';
 import SurveyList from './SurveyList';
 import NewResponseForm from './NewResponseForm';
 import PropTypes from 'prop-types';
@@ -12,6 +13,10 @@ function SurveyControl(props) {
 
   const handleClick = () => {
     if (props.selectedSurvey != null) {
+      if (props.editing) {
+        const actionOne = a.editSurvey();
+        dispatch(actionOne);
+      }
       const action = a.unselectSurvey();
       dispatch(action);
     } else {
@@ -47,24 +52,47 @@ function SurveyControl(props) {
         question5: survey.get("question5"),
         question6: survey.get("question6")
       }
-      const action = a.selectSurvey(firestoreSurvey);;
+      const action = a.selectSurvey(firestoreSurvey);
       dispatch(action);
     });
   };
 
+  const handleSurveyEdit = () => {
+    const action = a.editSurvey();
+    dispatch(action);
+    const actionTwo = a.unselectSurvey();
+    dispatch(actionTwo);
+  };
+
+  const handleEditClick = (id) => {
+    const action = a.editSurvey();
+    dispatch(action);
+  }
+
+  const handleDeleteClick = () => {
+    // delete function
+  }
+
   let currentView = null;
   let buttonText = null;
-  if(props.selectedSurvey !== null) {
+  if (props.editing) {
+    currentView = <EditSurveyForm
+      survey={props.selectedSurvey}
+      onEditSubmission = {handleSurveyEdit} />
+    buttonText = "return to survey list";
+  } else if(props.selectedSurvey !== null) {
     currentView = <NewResponseForm 
       survey={props.selectedSurvey}
-      onRespondingToSurvey={handleSurveyResponse} />
+      onRespondingToSurvey={handleSurveyResponse}
+      onEditingSurvey={handleEditClick} />
     buttonText = "return to survey list";
   } else if (props.formVisible) {
     currentView = <NewSurveyForm onNewSurveySubmission={handleSurveyCreation} />
     buttonText = "return to survey list";
   } else {
     currentView = <SurveyList
-      onSurveySelection={handleSurveySelection} />
+      onSurveySelection={handleSurveySelection}
+      onDeleteClick={handleDeleteClick} />
     buttonText = "create new survey";
   }
   return (
@@ -77,13 +105,15 @@ function SurveyControl(props) {
 
 SurveyList.propTypes = {
   formVisible: PropTypes.bool,
-  selectedSurvey: PropTypes.object
+  selectedSurvey: PropTypes.object,
+  editing: PropTypes.bool
 }
 
 const mapStateToProps = state => {
   return {
     selectedSurvey: state.selectedSurvey,
-    formVisible: state.formVisible
+    formVisible: state.formVisible,
+    editing: state.editing
   }
 }
 

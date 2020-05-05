@@ -15,7 +15,13 @@ function SurveyList(props) {
     return (
       <React.Fragment>
         {surveys.map((survey) => {
-          return <Survey whenSurveyClicked={props.onSurveySelection} title={survey.title} id={survey.id} key={survey.id} />
+          return <Survey 
+            whenSurveyClicked={props.onSurveySelection} 
+            whenDeleteClicked={props.onDeleteClick} 
+            whenEditClicked={props.onEditClick} 
+            title={survey.title} 
+            id={survey.id} 
+            key={survey.id} />
         })}
       </React.Fragment>
     );
@@ -29,7 +35,9 @@ function SurveyList(props) {
 }
 
 SurveyList.propTypes = {
-  onSurveySelection: PropTypes.func
+  onSurveySelection: PropTypes.func,
+  onEditClick: PropTypes.func,
+  onDeleteClick: PropTypes.func
 }
 
 export default SurveyList;

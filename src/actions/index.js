@@ -5,9 +5,10 @@ export const toggleForm = () => ({
 });
 
 export const selectSurvey = (survey) => {
-  const { title, instructions, question1, question2, question3, question4, question5, question6 } = survey;
+  const { id, title, instructions, question1, question2, question3, question4, question5, question6 } = survey;
   return {
     type: c.SELECT_SURVEY,
+    id: id,
     title: title,
     instructions: instructions,
     question1: question1,

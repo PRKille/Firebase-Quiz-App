@@ -11,8 +11,7 @@ function NewResponseForm(props) {
     props.onRespondingToSurvey();
     return firestore.collection('responses').add(
       {
-        //figure out if this vvvv is the problem
-        surveyId: event.target.surveyId.value,
+        surveyId: props.survey.id,
         question1answer: parseInt(event.target.question1answer.value),
         question2answer: parseInt(event.target.question2answer.value),
         question3answer: parseInt(event.target.question3answer.value),
@@ -25,10 +24,6 @@ function NewResponseForm(props) {
 
   return (
     <form onSubmit={handleSurveyResponse}>
-      <input
-        type="hidden"
-        name="surveyId"
-        value={props.survey.id} />
       <h1>{props.survey.title}</h1>
       <p>{props.survey.instructions}</p>
       <h4>{props.survey.question1}</h4>

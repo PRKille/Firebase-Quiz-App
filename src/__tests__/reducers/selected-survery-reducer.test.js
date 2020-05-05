@@ -4,6 +4,7 @@ import selectedSurveyReducer from '../../reducers/selected-survey-reducer';
 describe('selectedSurveyReducer', () => {
 
   const selectedSurvey = {
+    id: 'stringid',
     title: 'Is geoff good at redux',
     instructions: 'On a scale of 1 to 5 answer how well Geoff knows redux',
     question1: 'Can geoff figure out how to decrement in redux',
@@ -20,6 +21,7 @@ describe('selectedSurveyReducer', () => {
   test('Should successfully set selectedSurvey to the Survey passed to the reducer', () => {
    const action = {
       type: c.SELECT_SURVEY,
+      id: 'stringid',
       title: 'Is geoff good at redux',
       instructions: 'On a scale of 1 to 5 answer how well Geoff knows redux',
       question1: 'Can geoff figure out how to decrement in redux',

@@ -37,7 +37,7 @@ function SurveyControl(props) {
   const handleSurveySelection = (id) => {
     props.firestore.get({collection: 'surveys', doc: id}).then((survey) => {
       const firestoreSurvey = {
-        id: survey.get("id"), // this isn't working
+        id: id,
         title: survey.get("title"),
         instructions: survey.get("instructions"),
         question1: survey.get("question1"),
@@ -47,7 +47,7 @@ function SurveyControl(props) {
         question5: survey.get("question5"),
         question6: survey.get("question6")
       }
-      const action = a.selectSurvey(firestoreSurvey);
+      const action = a.selectSurvey(firestoreSurvey);;
       dispatch(action);
     });
   };

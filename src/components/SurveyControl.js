@@ -69,8 +69,10 @@ function SurveyControl(props) {
     dispatch(action);
   }
 
-  const handleDeleteClick = () => {
-    // delete function
+  const handleDeleteClick = (id) => {
+    props.firestore.delete({collection: 'surveys', doc: id});
+    const action = a.unselectSurvey();
+    dispatch(action);
   }
 
   let currentView = null;
@@ -84,15 +86,15 @@ function SurveyControl(props) {
     currentView = <NewResponseForm 
       survey={props.selectedSurvey}
       onRespondingToSurvey={handleSurveyResponse}
-      onEditingSurvey={handleEditClick} />
+      onEditingSurvey={handleEditClick}
+      onDeleteClick={handleDeleteClick} />
     buttonText = "return to survey list";
   } else if (props.formVisible) {
     currentView = <NewSurveyForm onNewSurveySubmission={handleSurveyCreation} />
     buttonText = "return to survey list";
   } else {
     currentView = <SurveyList
-      onSurveySelection={handleSurveySelection}
-      onDeleteClick={handleDeleteClick} />
+      onSurveySelection={handleSurveySelection} />
     buttonText = "create new survey";
   }
   return (

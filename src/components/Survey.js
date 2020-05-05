@@ -6,7 +6,6 @@ function Survey(props) {
     <div>
       <h3>{props.title}</h3>
       <button onClick={()=> props.whenSurveyClicked(props.id)}>take survey</button>
-      <button onClick={()=> props.whenDeleteClicked(props.id)}>delete survey</button>
     </div>
   );
 }

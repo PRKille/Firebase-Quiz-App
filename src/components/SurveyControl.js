@@ -5,7 +5,7 @@ import SurveyList from './SurveyList';
 import NewResponseForm from './NewResponseForm';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withFirestore, isLoaded } from 'react-redux-firebase';
+import { isLoaded, withFirestore } from 'react-redux-firebase';
 import * as a from '../actions';
 
 function SurveyControl(props) {
@@ -43,6 +43,7 @@ function SurveyControl(props) {
     props.firestore.get({collection: 'surveys', doc: id}).then((survey) => {
       const firestoreSurvey = {
         id: id,
+        creator: survey.get("creator"),
         title: survey.get("title"),
         instructions: survey.get("instructions"),
         question1: survey.get("question1"),
@@ -87,7 +88,6 @@ function SurveyControl(props) {
     );
   }
   if ((isLoaded(auth)) && (auth.currentUser == null)) {
-    console.log(auth);
     if(props.selectedSurvey !== null) {
       currentView = <NewResponseForm 
         survey={props.selectedSurvey}
@@ -121,7 +121,9 @@ function SurveyControl(props) {
         onDeleteClick={handleDeleteClick} />
       buttonText = "return to survey list";
     } else if (props.formVisible) {
-      currentView = <NewSurveyForm onNewSurveySubmission={handleSurveyCreation} />
+      currentView = <NewSurveyForm 
+        creatorOfSurvey={auth.currentUser.uid}
+        onNewSurveySubmission={handleSurveyCreation} />
       buttonText = "return to survey list";
     } else {
       currentView = <SurveyList

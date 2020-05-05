@@ -11,6 +11,7 @@ function NewSurveyForm(props) {
     props.onNewSurveySubmission();
     return firestore.collection('surveys').add(
       {
+        creator: props.creatorOfSurvey,
         title: event.target.title.value,
         instructions: event.target.instructions.value,
         question1: event.target.question1.value,
@@ -66,7 +67,8 @@ function NewSurveyForm(props) {
 }
 
 NewSurveyForm.propTypes = {
-  onNewSurveySubmission: PropTypes.func
+  onNewSurveySubmission: PropTypes.func,
+  creatorOfSurvey: PropTypes.string
 }
 
 export default NewSurveyForm;

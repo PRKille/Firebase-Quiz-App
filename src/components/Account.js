@@ -23,6 +23,7 @@ function Account(){
       <React.Fragment>
         <h1>Sign Out</h1>
         <button onClick={doSignOut}>Sign out</button>
+        <Link to="/dashboard">Dashboard</Link>
       </React.Fragment>
     } else {
     userControlView = 

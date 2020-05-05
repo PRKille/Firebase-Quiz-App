@@ -5,6 +5,7 @@ describe('selectedSurveyReducer', () => {
 
   const selectedSurvey = {
     id: 'stringid',
+    creator: 'random string'
     title: 'Is geoff good at redux',
     instructions: 'On a scale of 1 to 5 answer how well Geoff knows redux',
     question1: 'Can geoff figure out how to decrement in redux',
@@ -22,6 +23,7 @@ describe('selectedSurveyReducer', () => {
    const action = {
       type: c.SELECT_SURVEY,
       id: 'stringid',
+      creator: 'random string'
       title: 'Is geoff good at redux',
       instructions: 'On a scale of 1 to 5 answer how well Geoff knows redux',
       question1: 'Can geoff figure out how to decrement in redux',

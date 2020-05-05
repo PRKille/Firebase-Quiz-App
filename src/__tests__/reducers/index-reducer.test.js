@@ -12,7 +12,8 @@ describe("rootReducer", () => {
   test('Should return default if no action is recognized', () => {
     expect(rootReducer({}, { type: null })).toEqual({
       formVisible: false,
-      selectedSurvey: null
+      selectedSurvey: null,
+      editing: false
     });
   });
 
@@ -35,6 +36,8 @@ describe("rootReducer", () => {
   test('check that select survey action of selectedSurveyReducer matches rootReducer', () => {
     action = {
       type: c.SELECT_SURVEY,
+      id: 'id',
+      creator: 'random string',
       title: 'example',
       instructions: 'example',
       question1: 'question',
@@ -51,6 +54,8 @@ describe("rootReducer", () => {
   test('check that unselect survey action of selectedSurveyReducer matches rootReducer', () => {
     const survey = {
       title: 'example',
+      id: 'id',
+      creator: 'random string',
       instructions: 'example',
       question1: 'question',
       question2: 'question',

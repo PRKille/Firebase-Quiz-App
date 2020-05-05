@@ -11,6 +11,10 @@ function Account(){
       console.log(error.message);
     });
   }
+
+  const links = {
+    marginLeft: '2%'
+  }
   
   let user = firebase.auth().currentUser;
   let userControlView = null;
@@ -23,8 +27,8 @@ function Account(){
     } else {
     userControlView = 
       <React.Fragment>
-        <Link to="/signin">sign in</Link>
-        <Link to="/signup">make new account</Link>
+        <Link to="/signin" style={links}>sign in</Link>
+        <Link to="/signup" style={links}>make new account</Link>
       </React.Fragment>
   }
   

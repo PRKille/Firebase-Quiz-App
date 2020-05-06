@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFirestore } from 'react-redux-firebase';
+import { Button } from 'react-bootstrap';
 
 function EditSurveyForm(props) {
 
@@ -67,7 +68,7 @@ function EditSurveyForm(props) {
         type="text"
         name="question6"
         placeholder={props.survey.question6} />
-      <button type="submit">save changes</button>
+      <Button type="submit">save changes</Button>
     </form>
     </React.Fragment>
   );

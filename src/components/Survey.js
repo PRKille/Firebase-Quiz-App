@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button } from 'react-bootstrap';
 
 function Survey(props) {
   return (
     <div>
       <h3>{props.title}</h3>
-      <button onClick={()=> props.whenSurveyClicked(props.id)}>take survey</button>
+      <Button variant="outline-info" onClick={()=> props.whenSurveyClicked(props.id)}>take survey</Button>
     </div>
   );
 }

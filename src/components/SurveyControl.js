@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isLoaded, withFirestore } from 'react-redux-firebase';
 import * as a from '../actions';
+import { Button } from 'react-bootstrap';
 
 function SurveyControl(props) {
   const { dispatch } = props;
@@ -101,7 +102,7 @@ function SurveyControl(props) {
     }
     return (
       <React.Fragment>
-        <button onClick={handleClick}>{buttonText}</button>
+        <Button variant="outline-info" onClick={handleClick}>{buttonText}</Button>
         {currentView}
       </React.Fragment>
     );
@@ -132,7 +133,7 @@ function SurveyControl(props) {
     }
     return (
       <React.Fragment>
-        <button onClick={handleClick}>{buttonText}</button>
+        <Button variant="outline-info" onClick={handleClick}>{buttonText}</Button>
         {currentView}
       </React.Fragment>
     );

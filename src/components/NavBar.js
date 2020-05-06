@@ -1,22 +1,27 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import { Navbar, Nav } from 'react-bootstrap';
 
 function NavBar() {
-  const navStyles = {
-    display: 'flex',
-    justifyContent: 'space-around'
-  }
   const links = {
-    marginLeft: '10px'
+    marginLeft: '10px',
+    color: '#111111'
   }
   return (
-    <div style={navStyles}>
-      <h1>Survey-tron5000</h1>
-      <div>
-        <Link to="/" style={links}>Home</Link>
-        <Link to="/account" style={links}>Account</Link>
-      </div>
-    </div>
+    <Navbar collapseOnSelect expand="lg" bg="light" variant="dark">
+    <Navbar.Brand style={links}>Survey Queen</Navbar.Brand>
+      <Navbar.Toggle area-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link>
+            <Link to="/" style={links}>Home</Link>
+          </Nav.Link>
+          <Nav.Link>
+            <Link to="/account" style={links}>Account</Link>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 

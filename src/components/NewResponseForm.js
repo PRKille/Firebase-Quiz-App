@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useFirestore } from 'react-redux-firebase';
+import { Button } from 'react-bootstrap';
 
 function NewResponseForm(props) {
 
@@ -191,7 +192,7 @@ function NewResponseForm(props) {
         </div>
         <h4>{props.survey.question6}</h4>
         <textarea name="question6answer"></textarea>
-        <button type="submit">submit!</button>
+        <Button type="submit">submit!</Button>
       </form>
     </React.Fragment>
   );

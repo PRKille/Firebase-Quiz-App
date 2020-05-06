@@ -1,7 +1,8 @@
 import React from "react";
 import firebase from 'firebase/app';
+import { Button } from 'react-bootstrap';
 
-function SignIn(){  
+function SignIn() {
 
   function doSignIn(event) {
     event.preventDefault();
@@ -26,7 +27,7 @@ function SignIn(){
           type='password'
           name='signinPassword'
           placeholder='Password' />
-        <button type='submit'>Sign in</button>
+        <Button type='submit'>Sign in</Button>
       </form>
     </React.Fragment>
   );

@@ -3,10 +3,25 @@ import firebase from 'firebase/app';
 import Dashboard from './Dashboard';
 import { Link } from "react-router-dom";
 import { isLoaded, withFirestore } from 'react-redux-firebase';
+import { Button } from 'react-bootstrap';
 
-function Account(){
+class Account extends React.Component {
 
-  function doSignOut() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dbResponses: {},
+      hasRun: false
+    }
+  }
+
+  // let [dbResponses, setResponses] = useState({});
+  // useEffect(() => {
+  //   console.log("in");
+  //   surveyRefs();
+  // }, []);
+
+  doSignOut() {
     firebase.auth().signOut().then(function() {
       console.log("Successfully signed out!");
     }).catch(function(error) {
@@ -14,66 +29,84 @@ function Account(){
     });
   }
 
-  const links = {
-    marginLeft: '2%'
-  }
   
-  let user = firebase.auth().currentUser;
-  let userID = user.uid;
-  let userControlView = null;
-  let db = firebase.firestore();
+  render() {
+    const links = {
+      marginLeft: '2%'
+    }
 
-  // populate an array of survey IDs created by current user
-  let surveyRefs = db.collection("surveys").where("creator", "==", userID);
-  const userSurveyResponses = surveyRefs.get().then(function(querySnapshot) {
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let userControlView = null;
+    let db = firebase.firestore();
+
+    // populate an array of survey IDs created by current user
+    const surveyRefs = async () => {
+      let surveys = db.collection("surveys").where("creator", "==", userID);
+      let responses = await userSurveyResponses(surveys);
+      this.setState({dbResponses: responses, hasRun: true});
+      console.log(this.state);
+    }
+      
+    const userSurveyResponses = async (surveyRefs) => {
+      let res = await surveyRefs.get().then(function(querySnapshot) {
       if (isLoaded(querySnapshot)) {
         let responses = {};
-        querySnapshot.forEach(function(doc) {
-          const allResponses = db.collection('surveys').doc('survey_responses').collection('responses').where("surveyId", "==", doc.id);
-          allResponses.get().then(function(allFoundResponses) {
-            let allUserResponsesArray = [];
-            allFoundResponses.forEach(function(response) {
-              const currentResponse = {
-                id: response.id,
-                surveyId: response.get('surveyId'),
-                question1answer: response.get('question1answer'),
-                question2answer: response.get('question2answer'),
-                question3answer: response.get('question3answer'),
-                question4answer: response.get('question4answer'),
-                question5answer: response.get('question5answer'),
-                question6answer: response.get('question6answer'),
-              }
-              allUserResponsesArray.push(currentResponse);
+          querySnapshot.forEach(function(doc) {
+            const allResponses = db.collection('surveys').doc('survey_responses').collection('responses').where("surveyId", "==", doc.id);
+            allResponses.get().then(function(allFoundResponses) {
+              let allUserResponsesArray = [];
+              allFoundResponses.forEach(function(response) {
+                const currentResponse = {
+                  id: response.id,
+                  surveyId: response.get('surveyId'),
+                  question1answer: response.get('question1answer'),
+                  question2answer: response.get('question2answer'),
+                  question3answer: response.get('question3answer'),
+                  question4answer: response.get('question4answer'),
+                  question5answer: response.get('question5answer'),
+                  question6answer: response.get('question6answer'),
+                }
+                allUserResponsesArray.push(currentResponse);
+              });
+              responses[doc.id] = allUserResponsesArray;
             });
-            responses[doc.id] = allUserResponsesArray;
-          });
-        });
-        return responses;
-      };
-    });
+          });        
+          return responses;
+        };
+      });
+      return res;
+    };
 
-console.log(userSurveyResponses);
-
-  if (user) {
-    userControlView = 
-      <React.Fragment>
-        <h1>Dashboard</h1>
-        <button onClick={()=> doSignOut}>Sign out</button>
-        <Dashboard />
-      </React.Fragment>
+    let actualResponses;
+    if (this.state.hasRun === false) {
+      actualResponses = { message: "Loading..."};
+      surveyRefs();
     } else {
-    userControlView = 
+      actualResponses = this.state.dbResponses;
+    }
+
+    if (user) {
+      userControlView = 
+        <React.Fragment>
+          <h1>Dashboard</h1>
+          <Button variant="outline-info" onClick={()=> this.doSignOut}>Sign out</Button>
+          <Dashboard userResponses={actualResponses}/>
+        </React.Fragment>
+      } else {
+      userControlView = 
+        <React.Fragment>
+          <Link to="/signin" style={links}>sign in</Link>
+          <Link to="/signup" style={links}>make new account</Link>
+        </React.Fragment>
+    }
+    
+    return (
       <React.Fragment>
-        <Link to="/signin" style={links}>sign in</Link>
-        <Link to="/signup" style={links}>make new account</Link>
+        {userControlView}
       </React.Fragment>
+    );
   }
-  
-  return (
-    <React.Fragment>
-      {userControlView}
-    </React.Fragment>
-  );
 }
 
 export default withFirestore(Account);

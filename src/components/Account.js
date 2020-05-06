@@ -61,7 +61,12 @@ class Account extends React.Component {
                   }
                   allUserResponsesArray.push(currentResponse);
                 });
-                responses[doc.id] = allUserResponsesArray;
+
+                //fix this
+                let newKey = doc.id;
+                let newObj = {newKey: allUserResponsesArray};
+                // responses[doc.id] = allUserResponsesArray;
+                responses = Object.assign(responses, newObj);
               });
             });        
             return responses;

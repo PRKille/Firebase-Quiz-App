@@ -9,7 +9,6 @@ function EditSurveyForm(props) {
   function editSurveyInDatabase(event) {
     event.preventDefault();
     props.onEditSubmission();
-    console.log(props.survey)
     const titleEdit = (event.target.title.value !== "") ? event.target.title.value : props.survey.title;
     const instructionsEdit = (event.target.instructions.value !== "") ? event.target.instructions.value : props.survey.instructions;
     const Q1 = (event.target.question1.value !== "") ? event.target.question1.value : props.survey.question1;

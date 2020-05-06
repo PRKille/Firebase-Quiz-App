@@ -2,8 +2,9 @@ import React from "react";
 import firebase from 'firebase/app';
 import Dashboard from './Dashboard';
 import { Link } from "react-router-dom";
+import { isLoaded, withFirestore } from 'react-redux-firebase';
 
-function Account(){  
+function Account(){
 
   function doSignOut() {
     firebase.auth().signOut().then(function() {
@@ -20,21 +21,29 @@ function Account(){
   let user = firebase.auth().currentUser;
   let userID = user.uid;
   let userControlView = null;
+  let db = firebase.firestore();
 
   // populate an array of survey IDs created by current user
-  let userSurveyIds = [];
-  const surveys = firestore.collection("surveys").where("creator", "==", userID).get().then(function(querySnapshot) {
-    querySnapshot.forEach(function(doc) {
-      let surveyID = doc.id;
-      userSurveyIds.push(surveyID);
-    });
+  let surveyRefs = db.collection("surveys").where("creator", "==", userID);
+  let userSurveyRefs = surveyRefs.get().then(function(querySnapshot) {
+    if (isLoaded(querySnapshot)) {
+      let userSurveyIds = [];
+      querySnapshot.forEach(function(doc) {
+        userSurveyIds.push(doc.id);
+        console.log("user survey ids: " + userSurveyIds);
+        console.log("CURRENTID: "+ doc.id);
+      });
+      return userSurveyIds
+    }
   });
+  
+ {console.log("USERSURVEY Refs " + userSurveyRefs)}
 
   // populate an object with survey IDs as keys and, for each surveyID, an array of responses corresponding to that survey as the values.
   let responses = {};
-  if (userSurveyIds.length > 0) {
-    userSurveyIds.forEach(function(surveyId) {
-      const allUserSurveyResponses = firestore.collection("responses").where("surveyId", "==", surveyId).get().then(function(querySnapshot) {
+  if (userSurveyRefs.length > 0) {
+    userSurveyRefs.forEach(function(surveyId) {
+      db.collection("responses").where("surveyId", "==", surveyId).get().then(function(querySnapshot) {
         let currentSurveyResponses = [];
         querySnapshot.forEach(function(doc) {
           let response = {
@@ -59,8 +68,10 @@ function Account(){
       <React.Fragment>
         <h1>Dashboard</h1>
         <button onClick={()=> doSignOut}>Sign out</button>
-        {console.log(responses)}
+        {/* {console.log(responses)} */}
         <Dashboard />
+        {/* {console.log("SURVEY IDs" + userSurveyIds)} */}
+        {/* {console.log("RESPONSES " + responses)} */}
       </React.Fragment>
     } else {
     userControlView = 
@@ -77,4 +88,4 @@ function Account(){
   );
 }
 
-export default Account;
+export default withFirestore(Account);

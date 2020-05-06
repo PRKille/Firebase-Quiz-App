@@ -9,7 +9,7 @@ function NewResponseForm(props) {
   function handleSurveyResponse(event) {
     event.preventDefault();
     props.onRespondingToSurvey();
-    return firestore.collection('responses').add(
+    return firestore.collection('surveys').doc('survey_responses').collection('responses').add(
       {
         surveyId: props.survey.id,
         question1answer: parseInt(event.target.question1answer.value),

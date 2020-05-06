@@ -25,53 +25,41 @@ function Account(){
 
   // populate an array of survey IDs created by current user
   let surveyRefs = db.collection("surveys").where("creator", "==", userID);
-  let userSurveyRefs = surveyRefs.get().then(function(querySnapshot) {
-    if (isLoaded(querySnapshot)) {
-      let userSurveyIds = [];
-      querySnapshot.forEach(function(doc) {
-        userSurveyIds.push(doc.id);
-        console.log("user survey ids: " + userSurveyIds);
-        console.log("CURRENTID: "+ doc.id);
-      });
-      return userSurveyIds
-    }
-  });
-  
- {console.log("USERSURVEY Refs " + userSurveyRefs)}
-
-  // populate an object with survey IDs as keys and, for each surveyID, an array of responses corresponding to that survey as the values.
-  let responses = {};
-  if (userSurveyRefs.length > 0) {
-    userSurveyRefs.forEach(function(surveyId) {
-      db.collection("responses").where("surveyId", "==", surveyId).get().then(function(querySnapshot) {
-        let currentSurveyResponses = [];
+  const userSurveyResponses = surveyRefs.get().then(function(querySnapshot) {
+      if (isLoaded(querySnapshot)) {
+        let responses = {};
         querySnapshot.forEach(function(doc) {
-          let response = {
-            id: doc.id,
-            surveyId: doc.get("surveyId"),
-            question1answer: doc.get("question1answer"),
-            question2answer: doc.get("question2answer"),
-            question3answer: doc.get("question3answer"),
-            question4answer: doc.get("question4answer"),
-            question5answer: doc.get("question5answer"),
-            question6answer: doc.get("question6answer"),
-          }
-          currentSurveyResponses.push(response);
+          const allResponses = db.collection('surveys').doc('survey_responses').collection('responses').where("surveyId", "==", doc.id);
+          allResponses.get().then(function(allFoundResponses) {
+            let allUserResponsesArray = [];
+            allFoundResponses.forEach(function(response) {
+              const currentResponse = {
+                id: response.id,
+                surveyId: response.get('surveyId'),
+                question1answer: response.get('question1answer'),
+                question2answer: response.get('question2answer'),
+                question3answer: response.get('question3answer'),
+                question4answer: response.get('question4answer'),
+                question5answer: response.get('question5answer'),
+                question6answer: response.get('question6answer'),
+              }
+              allUserResponsesArray.push(currentResponse);
+            });
+            responses[doc.id] = allUserResponsesArray;
+          });
         });
-        responses[surveyId] = currentSurveyResponses;
-      });
+        return responses;
+      };
     });
-  }
+
+console.log(userSurveyResponses);
 
   if (user) {
     userControlView = 
       <React.Fragment>
         <h1>Dashboard</h1>
         <button onClick={()=> doSignOut}>Sign out</button>
-        {/* {console.log(responses)} */}
         <Dashboard />
-        {/* {console.log("SURVEY IDs" + userSurveyIds)} */}
-        {/* {console.log("RESPONSES " + responses)} */}
       </React.Fragment>
     } else {
     userControlView = 

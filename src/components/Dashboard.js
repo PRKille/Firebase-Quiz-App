@@ -8,11 +8,14 @@ function Dashboard(props){
   return (
     <React.Fragment>
       <p>A Dashboard</p>
+      {console.log(userResponses)}
       {Object.keys(userResponses).map((key) => {
-        return (<div>
+        return (
+        <div>
           <p>{key}</p>
           <p>{userResponses[key]}</p> 
-        </div>)
+        </div>
+        );
       })}
     </React.Fragment>
   );

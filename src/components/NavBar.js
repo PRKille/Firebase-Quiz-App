@@ -13,12 +13,8 @@ function NavBar() {
       <Navbar.Toggle area-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link>
-            <Link to="/" style={links}>Home</Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to="/account" style={links}>Account</Link>
-          </Nav.Link>
+          <Link to="/" style={links}>Home</Link>
+          <Link to="/account" style={links}>Account</Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

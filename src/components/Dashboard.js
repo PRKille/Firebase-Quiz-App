@@ -46,7 +46,7 @@ function Dashboard(props){
           <p>Question Three Average: {qThreeAvg}</p>
           <p>Question Four Average: {qFourAvg}</p>
           <p>Question Five Average: {qFiveAvg}</p>
-          <p>Question Six Responses:</p>{qSixList.map((answer, index) => { return <p key={index}>{answer}</p> })}
+          <ul>Question Six Responses: {qSixList.map((answer, index) => { return <li key={index}>{answer}</li> })}</ul>
         </React.Fragment>
       );
     } else {
@@ -68,7 +68,7 @@ function Dashboard(props){
   }
 
   let userDashboard;
-  if (userSurveys.length > 0 && userSurveys[0] != "Message:") {
+  if (userSurveys.length > 0 && userSurveys[0] !== "Message:") {
     userDashboard = (
       <React.Fragment>
         <h1>YOUR SURVEYS</h1>
@@ -97,8 +97,6 @@ function Dashboard(props){
       <p>A Dashboard</p>
       {userDashboard}
       {currentlyViewedSurveyResponses}
-      {/* {console.log(userSurveys)}
-      {console.log(userResponses)} */}
     </React.Fragment>
   );
 }

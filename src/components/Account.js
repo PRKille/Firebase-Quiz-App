@@ -9,7 +9,8 @@ class Account extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dbResponses: {},
+      surveyIds: [],
+      dbResponses: [],
       hasRun: false
     }
   }
@@ -36,18 +37,31 @@ class Account extends React.Component {
       
       const surveyRefs = async () => {
         let surveys = db.collection("surveys").where("creator", "==", userID);
-        let responses = await userSurveyResponses(surveys);
-        this.setState({dbResponses: responses, hasRun: true});
+        let userSurveyIds = await allUserSurveyIds(surveys);
+        let userResponses = await userSurveyResponses(surveys);
+        this.setState({surveyIds: userSurveyIds, dbResponses: userResponses, hasRun: true});
+      }
+
+      const allUserSurveyIds = async (surveys) => {
+        let res = await surveys.get().then(function(querySnapshot) {
+          if (isLoaded(querySnapshot)) {
+            let currentUserSurveyIds = [];
+            querySnapshot.forEach(function(doc) {
+              currentUserSurveyIds.push(doc.id);
+            });
+            return currentUserSurveyIds;
+          }
+        });
+        return res;
       }
       
-      const userSurveyResponses = async (surveyRefs) => {
-        let res = await surveyRefs.get().then(function(querySnapshot) {
+      const userSurveyResponses = async (surveys) => {
+        let res = await surveys.get().then(function(querySnapshot) {
         if (isLoaded(querySnapshot)) {
-          let responses = {};
+          let responses = [];
             querySnapshot.forEach(function(doc) {
               const allResponses = db.collection('surveys').doc('survey_responses').collection('responses').where("surveyId", "==", doc.id);
               allResponses.get().then(function(allFoundResponses) {
-                let allUserResponsesArray = [];
                 allFoundResponses.forEach(function(response) {
                   const currentResponse = {
                     id: response.id,
@@ -59,27 +73,24 @@ class Account extends React.Component {
                     question5answer: response.get('question5answer'),
                     question6answer: response.get('question6answer'),
                   }
-                  allUserResponsesArray.push(currentResponse);
+                  responses.push(currentResponse);
                 });
-
-                //fix this
-                let newKey = doc.id;
-                let newObj = {newKey: allUserResponsesArray};
-                // responses[doc.id] = allUserResponsesArray;
-                responses = Object.assign(responses, newObj);
               });
             });        
             return responses;
           };
         });
-        return res;
+        return res
       };
 
       let actualResponses;
+      let ids;
       if (this.state.hasRun === false) {
-        actualResponses = { message: "Loading..."};
+        ids = ["message:"]
+        actualResponses = ["Loading..."];
         surveyRefs();
-      } else {        
+      } else {
+        ids = this.state.surveyIds;
         actualResponses = this.state.dbResponses;
       }
 
@@ -87,7 +98,9 @@ class Account extends React.Component {
       <React.Fragment>
         <h1>Dashboard</h1>
         <Button variant="outline-info" onClick={()=> this.doSignOut}>Sign out</Button>
-        <Dashboard userResponses={actualResponses}/>
+        <Dashboard 
+          userSurveys={ids}
+          userResponses={actualResponses}/>
       </React.Fragment>
     } else {
         userControlView = 

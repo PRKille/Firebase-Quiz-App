@@ -3,24 +3,20 @@ import PropTypes from 'prop-types';
 
 function Dashboard(props){
 
-  const { userResponses } = props;
+  const { userResponses, userSurveys } = props;
 
   return (
     <React.Fragment>
       <p>A Dashboard</p>
       {console.log(userResponses)}
-      {Object.keys(userResponses).map((key) =>
-        <div>
-          <p>{key}</p>
-          <p>{userResponses[key]}</p> 
-        </div>
-      )}
+      {console.log(userSurveys)}
     </React.Fragment>
   );
 }
 
 Dashboard.propTypes = {
-  userResponses: PropTypes.object
+  userResponses: PropTypes.array,
+  userSurveys: PropTypes.array
 }
 
 export default Dashboard;

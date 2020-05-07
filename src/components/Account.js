@@ -47,7 +47,12 @@ class Account extends React.Component {
           if (isLoaded(querySnapshot)) {
             let currentUserSurveyIds = [];
             querySnapshot.forEach(function(doc) {
-              currentUserSurveyIds.push(doc.id);
+              const survey = {
+                id: doc.id,
+                title: doc.get("title"),
+                key: doc.id
+              }
+              currentUserSurveyIds.push(survey);
             });
             return currentUserSurveyIds;
           }
@@ -65,6 +70,7 @@ class Account extends React.Component {
                 allFoundResponses.forEach(function(response) {
                   const currentResponse = {
                     id: response.id,
+                    key: response.id,
                     surveyId: response.get('surveyId'),
                     question1answer: response.get('question1answer'),
                     question2answer: response.get('question2answer'),
@@ -86,7 +92,7 @@ class Account extends React.Component {
       let actualResponses;
       let ids;
       if (this.state.hasRun === false) {
-        ids = ["message:"]
+        ids = ["Message:"]
         actualResponses = ["Loading..."];
         surveyRefs();
       } else {
